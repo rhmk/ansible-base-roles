@@ -1,0 +1,56 @@
+---
+
+- name: Add Google Chrome repository
+  yum_repository:
+    name: google-chrome
+    description: google-chrome
+    baseurl: http://dl.google.com/linux/chrome/rpm/stable/x86_64
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+- name: Add Google Chrome signing key
+  rpm_key:
+    state: present
+    key: https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+- name: Enables RPM Fusion directories
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
+    - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
+
+- name: Enable copr Repositories
+  shell: dnf copr enable "{{ item }}"
+  with_items:
+    - sergiomb/google-drive-ocamlfuse
+
+- name: Enable Samsung ULD repo ( http://negativo17.org/samsung-unified-linux-driver-printers-scanners/ )
+  shell: dnf config-manager --add-repo=http://negativo17.org/repos/fedora-uld.repo
+
+- name: install required packages
+  dnf:
+    stater: latest
+    name: "{{ item }}"
+  with_items:
+    - \@libreoffice
+    - firefox
+    - chrome
+    - thunderbird
+    - evolution
+    - sshuttle
+    - google-drive-ocamlfuse
+    - uld
+
+- name: configure firewalld
+  firewalld:
+    service: uld
+    permanent: true
+    state: enabled
+
+- name: update system
+  shell: dnf -y update
+
+...

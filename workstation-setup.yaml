@@ -1,0 +1,12 @@
+#!/usr/bin/env ansible-playbook
+
+---
+- hosts: workstations
+
+  remote_user: root
+
+  roles:
+    - 01-manage-ssh-host-keys
+    - 02-workstation-packages
+
+...
