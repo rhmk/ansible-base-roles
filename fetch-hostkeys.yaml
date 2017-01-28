@@ -6,6 +6,6 @@
   remote_user: root
 
   roles:
-    - download-ssh-host-keys
+    - download-ssh-hostkeys
 
 ...
