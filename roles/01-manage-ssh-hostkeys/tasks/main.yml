@@ -3,19 +3,50 @@
 # fetch all public hostkeys and store them in hostkey format
 # <hostname> <algorithm> <key>
 
-- name collect-hostkeys
-  fetch:
-    src=/etc/ssh/ssh_host_*_key.pub
-    dest=hostkeys/{{ inventory_hostname }}
-    flat: yes
+#- name collect-hostkeys
+#  fetch:
+#   src=/etc/ssh/ssh_host_*_key.pub
+#   dest=hostkeys/{{ inventory_hostname }}
+#   flat: yes
 
-#-name: collect-rsa-hostkey
-#    local_action: copy content={{ ansible_ssh_host_key_rsa_public }} dest=/etc/ansible/roles/files/hostkeys/rsa_pub.{{ ansible_hostname }}
+# Get the public hostkeys and save them to a localfile
+become: root
 
-# make sure all public hostkeys are added to /etc/ssh/ssh_known_hosts
-- name: tell the host about our servers it might want to ssh to
-  known_hosts:
-    path: /etc/ssh/ssh_known_hosts
-    name: foo.com.invalid
-    key: "{{ lookup('file', 'pubkeys/foo.com.invalid') }}"
+-name: add rsa key to local host
+ local_action:
+   known_hosts:
+     path: /etc/ssh/ssh_known_hosts
+     state: present
+     name: "{{ ansible_fqdn }}"
+     key: "{{ ansible_fqdn }} ssh-rsa {{ ansible_ssh_host_key_rsa_public }}"
+ when: ansible_ssh_host_key_rsa_public is defined
+
+-name: add ed25519 hostkey to local host
+ local_action:
+   known_hosts:
+     path: /etc/ssh/ssh_known_hosts
+     state: present
+     name: "{{ ansible_fqdn }}"
+     key: "{{ ansible_fqdn }} ssh-ed25519 {{ ansible_ssh_host_key_ed25519_public }}"
+ when: ansible_ssh_host_key_ed25519_public is defined
+
+-name: add ecdsa hostkey to local host
+ local_action: 
+   known_hosts:
+     path: /etc/ssh/ssh_known_hosts
+     state: present
+     name: "{{ ansible_fqdn }}"
+     key: "{{ ansible_fqdn }} ecdsa-sha2-nistp256 {{ ansible_ssh_host_key_ecdsa }}"
+ when: ansible_ssh_host_key_ecdsa_public is defined
+
+# copy local known host to remote host
+- name: copy local hosts to remote host
+  copy:
+    src: /etc/ssh/ssh_known_hosts
+    dest: /etc/ssh/ssh_known_hosts
+    owner: root
+    group: root
+    mode: 0644 
+  when: ansible_hostname != "fedora-mkoch" 
+
 ...
