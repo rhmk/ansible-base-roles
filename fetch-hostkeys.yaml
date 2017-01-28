@@ -2,6 +2,7 @@
 # This playbook fetches all hostkeys
 
 - name: fetch hostkeys from hosts
+  hosts: all
   remote_user: root
 
   roles:
