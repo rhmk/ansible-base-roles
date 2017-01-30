@@ -3,29 +3,14 @@
 # <hostname> <algorithm> <key>
 
 - name: add rsa key to local host
-  known_hosts:
-    path: /etc/ssh/ssh_known_hosts
-    state: present
-    name: "{{ ansible_fqdn }}"
-    key: "{{ ansible_fqdn }} ssh-rsa {{ ansible_ssh_host_key_rsa_public }}"
-  delegate_to: 127.0.0.1
+  local_action: known_hosts path=/etc/ssh/ssh_known_hosts state=present name="{{ ansible_fqdn }}" key="{{ ansible_fqdn }} ssh-rsa {{ ansible_ssh_host_key_rsa_public }}"
   when: ansible_ssh_host_key_rsa_public is defined
 
 - name: add ed25519 hostkey to local host
-  known_hosts:
-    path: /etc/ssh/ssh_known_hosts
-    state: present
-    name: "{{ ansible_fqdn }}"
-    key: "{{ ansible_fqdn }} ssh-ed25519 {{ ansible_ssh_host_key_ed25519_public }}"
-  delegate_to: 127.0.0.1
+  local_action: known_hosts path=/etc/ssh/ssh_known_hosts state=present name="{{ ansible_fqdn }}" key="{{ ansible_fqdn }} ssh-ed25519 {{ ansible_ssh_host_key_rsa_public }}"
   when: ansible_ssh_host_key_ed25519_public is defined
 
 - name: add ecdsa hostkey to local host
-  known_hosts:
-    path: /etc/ssh/ssh_known_hosts
-    state: present
-    name: "{{ ansible_fqdn }}"
-    key: "{{ ansible_fqdn }} ecdsa-sha2-nistp256 {{ ansible_ssh_host_key_ecdsa }}"
-  delegate_to: 127.0.0.1
+  local_action: known_hosts path=/etc/ssh/ssh_known_hosts state=present name="{{ ansible_fqdn }}" key="{{ ansible_fqdn }} ecdsa-sha2-nistp256 {{ ansible_ssh_host_key_rsa_public }}"
   when: ansible_ssh_host_key_ecdsa_public is defined
 
