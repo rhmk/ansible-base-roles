@@ -2,6 +2,10 @@
 # fetch all public hostkeys and store them in hostkey format
 # <hostname> <algorithm> <key>
 
+- name: make sure directory for collecting hostfiles exit
+  become: false
+  local_action: file path=roles/distribute-ssh-hostkeys/files state=directory mode=0755 
+
 - name: add rsa key to local host
   become: false
   local_action: known_hosts state=present name="{{ ansible_fqdn }}" path=roles/distribute-ssh-hostkeys/files/ssh_known_hosts key="{{ ansible_fqdn }},{{ ansible_default_ipv4.address }} ssh-rsa {{ ansible_ssh_host_key_rsa_public }}"
