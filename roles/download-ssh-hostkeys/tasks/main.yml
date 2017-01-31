@@ -3,11 +3,12 @@
 # <hostname> <algorithm> <key>
 
 - name: What is my local id
-  sudo: false
+  become: false
   local_action: command /bin/id
 
 - name: add rsa key to local host
-  local_action: known_hosts path=/etc/ssh/ssh_known_hosts state=present name="{{ ansible_fqdn }}" key="{{ ansible_fqdn }} ssh-rsa {{ ansible_ssh_host_key_rsa_public }}"
+  become: false
+  local_action: known_hosts state=present name="{{ ansible_fqdn }}" key="{{ ansible_fqdn }} ssh-rsa {{ ansible_ssh_host_key_rsa_public }}"
   when: ansible_ssh_host_key_rsa_public is defined
 
 - name: add ed25519 hostkey to local host
