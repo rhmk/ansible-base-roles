@@ -27,7 +27,7 @@
    if grep -q "^enabled=1$" "/etc/yum.repos.d/_copr_{{ item.name }}-{{ item.project }}.repo"; then
       exit 90
    else
-      dnf copr enable "{{ item.name }}/{{ item.project }}"
+      dnf -y copr enable "{{ item.name }}/{{ item.project }}"
    fi
   with_items:
     - { name: 'sergiomb', project: 'google-drive-ocamlfuse' }
