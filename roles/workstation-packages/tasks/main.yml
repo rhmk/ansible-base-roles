@@ -53,7 +53,7 @@
 
 - name: install required packages
   dnf:
-    stater: latest
+    state: latest
     name: "{{ item }}"
   with_items:
     - \@libreoffice
@@ -64,6 +64,8 @@
     - sshuttle
     - google-drive-ocamlfuse
     - uld
+    - rythmbox
+    - shotwell
 
 - name: configure firewalld
   firewalld:
