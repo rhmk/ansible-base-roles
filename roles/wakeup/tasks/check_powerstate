@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#
+# parameter
+#
+# $1 IP
+# $2 MAC
+
+online=0
+if ping -c 1 "$IP"; then
+   online=1
+else
+   [ -n "$2" ] && wake-onlan $MAC
+fi
