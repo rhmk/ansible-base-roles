@@ -56,7 +56,6 @@
     state: latest
     name: "{{ item }}"
   with_items:
-    - "@libreoffice"
     - firefox
     - chrome
     - thunderbird
