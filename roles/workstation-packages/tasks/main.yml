@@ -58,7 +58,7 @@
   with_items:
     - "@libreoffice"
     - firefox
-    - chrome
+    - google-chrome-stable
     - thunderbird
     - evolution
     - sshuttle
