@@ -4,9 +4,8 @@
   become: false
   local_action: command "/bin/ping -c 1  {{ ansible_hostname | default(inventory_hostname) }}"
   register: online
-  changed_when: online.rc == 1
-  failed_when: online.rc > 1
   ignore_errors: True
+  changed_when: online.rc != 0
 
 - name: send magic packet
   become: false
