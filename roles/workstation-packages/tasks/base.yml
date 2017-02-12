@@ -1,0 +1,80 @@
+---
+
+- name: Add Google Chrome repository
+  yum_repository:
+    name: google-chrome
+    description: google-chrome
+    baseurl: http://dl.google.com/linux/chrome/rpm/stable/x86_64
+    enabled: yes
+    gpgcheck: yes
+    gpgkey: https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+- name: Add Google Chrome signing key
+  rpm_key:
+    state: present
+    key: https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+- name: Enables RPM Fusion directories
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
+    - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
+
+- name: Enable copr Repositories
+  shell: |
+   if grep -q "^enabled=1$" "/etc/yum.repos.d/_copr_{{ item.name }}-{{ item.project }}.repo"; then
+      exit 90
+   else
+      dnf -y copr enable "{{ item.name }}/{{ item.project }}"
+   fi
+  with_items:
+    - { name: 'sergiomb', project: 'google-drive-ocamlfuse' }
+  register: copr_enabled
+  changed_when: copr_enabled.rc == 0
+  failed_when: copr_enabled.rc > 0 and copr_enabled.rc != 90
+  tags:
+    - coprrepo
+
+- name: Enable Samsung ULD repo ( http://negativo17.org/samsung-unified-linux-driver-printers-scanners/ )
+  shell: |
+   if [ -f /etc/yum.repos.d/fedora-uld.repo ]; then
+      echo ULD repo is enabled
+      exit 90
+   else
+      dnf config-manager --add-repo=http://negativo17.org/repos/fedora-uld.repo
+   fi
+  register: samsungrepo
+  changed_when: samsungrepo.rc == 0
+  failed_when: samsungrepo.rc > 0 and samsungrepo.rc != 90
+  tags:
+    - uldrepo
+
+- name: install required packages
+  dnf:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - firefox
+    - google-chrome-stable
+    - thunderbird
+    - evolution
+    - sshuttle
+    - google-drive-ocamlfuse
+    - uld
+
+- name: install required package groups
+  dnf:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - "@LibreOffice"
+
+- name: configure firewalld
+  firewalld:
+    service: uld
+    permanent: true
+    state: enabled
+
+...

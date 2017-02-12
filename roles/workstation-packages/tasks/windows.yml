@@ -1,0 +1,14 @@
+---
+
+- name: wine and mono for windows tools
+  dnf:
+    state: present
+    name: "{{ item }}"
+  tag: multimedia
+  with_items:
+    - wine
+    - mono-core
+    - oxygen-mono-fonts
+    - mono-devel
+    - wine-fonts
+    - msttcore-fonts-installer

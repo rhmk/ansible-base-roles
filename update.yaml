@@ -1,0 +1,12 @@
+#!/usr/bin/env ansible-playbook
+
+---
+- name: basic workstation setup
+  hosts: all
+  remote_user: root
+
+  roles:
+    - wakeup
+    - { role: tdobrovolny.autoupdate }
+    - suspend
+...

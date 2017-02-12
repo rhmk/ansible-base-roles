@@ -1,0 +1,8 @@
+---
+
+- name: suspend if woke up earlier
+  command: /bin/systemctl suspend
+  ignore_errors: True
+  when: online.rc == 1
+
+...

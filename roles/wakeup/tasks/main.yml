@@ -1,12 +1,21 @@
 ---
 
-- name check powerstate
-  sudo: false
-  local_action: command "ping -c 1  {{ ansible_hostname }}"
-  register online
+- name: check powerstate
+  become: false
+  local_action: command "/bin/ping -c 1  {{ ansible_hostname | default(inventory_hostname) }}"
+  register: online
+  changed_when: online.rc == 1
+  failed_when: online.rc > 1
+  ignore_errors: True
 
-- local_action: wake-on-lan 
-  when online == 1
+- name: send magic packet
+  become: false
+  local_action: wake-on-lan mac="{{ wol_mac }}"
+  when: online.rc == 1
 
-- local_action: wait_for port=22 host="{{ ansible_ssh_host | default(inventory_hostname) }}" delay=10 timeout=300
+- name: wait for client to be online
+  become: false
+  local_action: wait_for port=22 host="{{ ansible_hostname | default(inventory_hostname) }}" delay=10 timeout=300
+  when: online.rc == 1
+
 ...

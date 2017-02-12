@@ -1,0 +1,17 @@
+---
+
+- name: kernel-development
+  dnf:
+    state: present
+    name: "{{ item }}"
+  tag: development
+  with_items:
+    - fedpkg
+    - fedora-packager
+    - rpmdevtools
+    - ncurses-devel
+    - pesign
+    - "@developer-workstation-environment"
+    - "@development-tools"
+    - "@c-development"
+    - "@d-development"
