@@ -1,7 +1,9 @@
 ---
 
 - name: suspend if woke up earlier
-  command: /bin/systemctl suspend
+  shell: |
+    /bin/echo '/bin/systemctl suspend' | /usr/bin/at NOW + 2min
+    exit 0
   ignore_errors: True
   when: online.failed is defined
 
