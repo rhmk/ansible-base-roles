@@ -4,10 +4,11 @@
 - name: basic workstation setup
   hosts: all
   remote_user: root
+  become: true
   gather_facts: false
 
   roles:
     - wakeup
-#    - { role: tdobrovolny.autoupdate }
+    - { role: tdobrovolny.autoupdate }
     - suspend
 ...
