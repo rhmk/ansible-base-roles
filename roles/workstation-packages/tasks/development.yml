@@ -4,7 +4,6 @@
   dnf:
     state: present
     name: "{{ item }}"
-  tag: development
   with_items:
     - fedpkg
     - fedora-packager

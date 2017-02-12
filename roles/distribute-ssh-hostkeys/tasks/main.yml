@@ -10,6 +10,6 @@
     owner: root
     group: root
     mode: 0644
-  tag:
+  tags:
     - update_ssh_keys
 ...

@@ -4,7 +4,6 @@
   dnf:
     state: present
     name: "{{ item }}"
-  tag: multimedia
   with_items:
     - wine
     - mono-core
