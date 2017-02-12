@@ -8,7 +8,7 @@
 
 - name: send magic packet
   become: false
-  local_action: wake-on-lan mac="{{ wol_mac }}" broadcast="192.168.2.255"
+  local_action: wakeonlan mac="{{ wol_mac }}" broadcast="192.168.2.255"
   when: online.failed == true
 
 - name: wait for client to be online
