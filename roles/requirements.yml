@@ -1,0 +1,11 @@
+# 
+# required roles from other sources
+# see also: http://docs.ansible.com/ansible/galaxy.html#advanced-control-over-role-requirements-files
+#
+
+# update system from galaxy:
+#
+- src: tdobrovolny.autoupdate
+
+dependencies:
+  - tdobrovolny.autoupdate
