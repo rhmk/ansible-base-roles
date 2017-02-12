@@ -9,11 +9,14 @@
 - name: send magic packet
   become: false
   local_action: wake-on-lan mac="{{ wol_mac }}" broadcast="192.168.2.255"
-  when: online.rc == 1
+  when: online.failed == true
 
 - name: wait for client to be online
   become: false
   local_action: wait_for port=22 host="{{ ansible_hostname | default(inventory_hostname) }}" delay=10 timeout=300
-  when: online.rc == 1
+  when: online.failed == true
+
+- name: now gather facts
+  setup:
 
 ...
