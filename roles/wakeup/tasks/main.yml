@@ -2,7 +2,7 @@
 
 - name: check powerstate
   become: false
-  local_action: command "/usr/bin/ping -c 1  {{ ansible_hostname | default(inventory_hostname) }}"
+  local_action: command "/usr/bin/ping -c 1  {{ ansible_ip }}"
   register: online
   ignore_errors: True
   changed_when: online.rc != 0
