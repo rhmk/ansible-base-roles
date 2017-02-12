@@ -1,11 +1,16 @@
 ---
 
-- name: check powerstate
-  become: false
-  local_action: command "/usr/bin/ping -c 1  {{ ansible_ip }}"
+#- name: check powerstate
+#  become: false
+# local_action: command "/usr/bin/ping -c 1  {{ ansible_ip }}"
+#  register: online
+#  ignore_errors: True
+#  changed_when: online.rc != 0
+
+- name: check if online
+  ping:
   register: online
   ignore_errors: True
-  changed_when: online.rc != 0
 
 - name: send magic packet
   become: false
