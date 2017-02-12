@@ -2,10 +2,9 @@
 
 - name: check powerstate
   become: false
-  local_action: command "/usr/bin/ping -c 1  {{ default(inventory_hostname) }}"
+  local_action: wait_for port=22 host="{{ ansible_hostname | default(inventory_hostname) }}" timeout=3
   register: online
   ignore_errors: True
-  changed_when: online.rc != 0
 
 - name: send magic packet
   become: false
