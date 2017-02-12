@@ -8,6 +8,6 @@
 
   roles:
     - wakeup
-    - { role: tdobrovolny.autoupdate }
-    - suspend
+#    - { role: tdobrovolny.autoupdate }
+#    - suspend
 ...
