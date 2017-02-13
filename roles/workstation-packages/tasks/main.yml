@@ -8,8 +8,8 @@
 
 - include: ./system-tuning.yml
 
-- include: ./redhat.yml
+- include: ./rhi.yml
   when:
-    - redhat_internal
+    - rh_internal
 
 - include: ./windows.yml

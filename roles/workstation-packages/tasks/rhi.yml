@@ -1,0 +1,20 @@
+---
+
+- name: Add Local Repository with RedHat stuff
+  yum_repository:
+    name: RH_Internal
+    description: RH_Internal
+    baseurl: http://n40l.fritz.box/repo/redhat/
+    enabled: yes
+    gpgcheck: no
+
+- name: Install RH stuff
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - redhat-office-templates
+    - redhat-internal-cert-install
+    - NetworkManager-openvpn 
+    - NetworkManager-openvpn-gnome
+    - redhat-internal-NetworkManager-openvpn-profiles
