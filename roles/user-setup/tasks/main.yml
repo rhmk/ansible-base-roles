@@ -1,15 +1,15 @@
 ---
 
-- name: make sure certain system groups exist, even if software is not yet installed
-  group:
-    name: "{{ item.name }}"
-    state: present
-    gid: " {{ item.id }}"
-    system: yes 
-
-  with_items:
-   - { name: docker, id: 982 }
-   - { name: vagrant, id: 963 }
+#- name: make sure certain system groups exist, even if software is not yet installed
+#  group:
+#    name: "{{ item.name }}"
+#    state: present
+#    gid: " {{ item.id }}"
+#    system: yes 
+#
+#  with_items:
+#   - { name: docker, id: 982 }
+#   - { name: vagrant, id: 963 }
 
 - name: add users
   user:
