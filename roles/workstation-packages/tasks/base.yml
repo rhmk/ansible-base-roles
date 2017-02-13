@@ -22,8 +22,8 @@
 - name: Add UnitedRPMs signing key
   rpm_key:
     state: present
-    key: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/URPMS-GPG-PUBLICKEY-Fedora-25
-
+    key: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/URPMS-GPG-PUBLICKEY-Fedora-24
+    validate_certs: no
 
 - name: Disable RPM Fusion directories
   dnf:
