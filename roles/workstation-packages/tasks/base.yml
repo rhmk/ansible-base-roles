@@ -56,7 +56,7 @@
    fi
   register: disablerepos
   changed_when: disablerepos == 90
-  failed_when: copr_enabled.rc > 0 and copr_enabled.rc != 90
+  failed_when: disablerepos.rc > 0 and disablerepos.rc != 90
 
 - name: Enable copr Repositories
   shell: |
