@@ -33,15 +33,30 @@
     - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
     - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
 
+#- name: Disable RPM Fusion directories
+#  yum_repository:
+#   name: "{{ item }}"
+#   enabled: no
+# with_items:
+#   - rpmfusion-free
+#   - rpmfusion-free-updates
+#   - rpmfusion-nonfree
+#   - rpmfusion-nonfree-updates
+
 - name: Disable RPM Fusion directories
-  yum_repository:
-    name: "{{ item }}"
-    enabled: no
-  with_items:
-    - rpmfusion-free
-    - rpmfusion-free-updates
-    - rpmfusion-nonfree
-    - rpmfusion-nonfree-updates
+  shell: |
+   if cat /etc/yum.repos.d/rpmfusion-*.repo | grep -q "^enabled=1"; then
+     for i in /etc/yum.repos.d/rpmfusion*.repo; do
+       sed -i "s/^enabled=1/enabled=0/g" $i
+       echo "$i disabled"
+     done
+     exit 90
+   else
+     exit 0
+   fi
+  register: disablerepos
+  changed_when: disablerepos == 90
+  failed_when: copr_enabled.rc > 0 and copr_enabled.rc != 90
 
 - name: Enable copr Repositories
   shell: |
