@@ -52,7 +52,7 @@
   shell: |
    if [ -f /etc/yum.repos.d/fedora-uld.repo ]; then
       echo ULD repo is enabled, remove it
-      rm -f /etc/yum.repos.d/fedora-uld.repo 
+      rm -f /etc/yum.repos.d/fedora-uld.repo
       exit 90
    else
       echo "Repo is not enabled"
