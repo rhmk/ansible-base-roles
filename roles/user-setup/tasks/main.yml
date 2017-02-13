@@ -1,6 +1,6 @@
 ---
 
-- name add users
+- name: add users
   user:
     name: "{{ item.key }}"
     password: "{{ item.value.encpw }}"
