@@ -5,7 +5,7 @@
 #    name: "{{ item.name }}"
 #    state: present
 #    gid: " {{ item.id }}"
-#    system: yes 
+#    system: yes
 #
 #  with_items:
 #   - { name: docker, id: 982 }

@@ -5,11 +5,27 @@
     state: present
     name: "{{ item }}"
   with_items:
-    - soundjuicer
+    - sound-juicer
     - brasero
-    - ogmrip
+    - vlc
+    - mpv
     - ffmpeg
+    - gnome-mpv
+    - openshot
+    - obs-studio
+    - handbrake
+    - devede
+    - deadbeef
     - libdvdcss
-    - lame
-
-
+    - gstreamer-plugins-ugly
+    - gstreamer1-libav
+    - gstreamer1-plugins-bad-free
+    - gstreamer1-plugins-good
+    - gstreamer1-plugins-ugly
+    - gstreamer-ffmpeg
+    - gstreamer-plugins-bad
+    - gstreamer-plugins-bad-free
+    - gstreamer-plugins-bad-nonfree
+    - gstreamer-plugins-good
+    - gstreamer-plugins-ugly
+    - gstreamer1-plugins-bad-nonfree
