@@ -1,0 +1,15 @@
+---
+
+- name: regenerate grub2 conf
+  shell: grub2-mkconfig -o /boot/grub2/grub.cfg
+
+- name: restart chronyd
+  service: name=chronyd state=restarted
+
+- name: restart systemd-logind
+  service: name=systemd-logind state=restarted
+
+- name: restart cups
+  service: name=cups state=restarted
+
+...

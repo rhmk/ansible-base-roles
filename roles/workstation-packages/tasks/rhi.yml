@@ -18,3 +18,14 @@
     - NetworkManager-openvpn 
     - NetworkManager-openvpn-gnome
     - redhat-internal-NetworkManager-openvpn-profiles
+
+- name: Configure PrinterServer
+  lineinfile: 
+    path: /etc/cups/cups-browsed.conf
+    insertafter: '^# BrowsePoll '
+    state: present
+    backup: yes
+    line: "BrowsePoll {{ item }}"
+  with_items: "{{ cupssrv }}"
+  when: cupssrv is defined
+  notify: restart cups
