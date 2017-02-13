@@ -25,13 +25,24 @@
     key: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/URPMS-GPG-PUBLICKEY-Fedora-24
     validate_certs: no
 
+#- name: Enable RPM Fusion directories
+#  dnf:
+#   name: "{{ item }}"
+#   state: present
+# with_items:
+#   - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
+#   - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
+
 - name: Disable RPM Fusion directories
   dnf:
     name: "{{ item }}"
     state: absent
   with_items:
-    - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
-    - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
+    - rpmfusion-free-release
+    - rpmfusion-nonfree-release
+    - rpmfusion-nonfree-appstream-data
+    - rpmfusion-free-appstream-data
+
 
 - name: Enable copr Repositories
   shell: |
