@@ -1,7 +1,7 @@
 ---
 
 - name: check selinux
-  selinux: state=enabled
+  selinux: state=enforcing
 
 #- name: set ntp server via chrony
 #  lineinfile: dest=/etc/chrony.conf line="server {{ ntpserver }} iburst"
