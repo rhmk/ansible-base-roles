@@ -14,10 +14,21 @@
     state: present
     key: https://dl-ssl.google.com/linux/linux_signing_key.pub
 
-- name: Enables RPM Fusion directories
+- name: Enable UnitedRPMs for Multimedia
+  dnf:
+    name: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms/master/RPM/unitedrpms-25-1.noarch.rpm
+    state: present
+
+- name: Add UnitedRPMs signing key
+  rpm_key:
+    state: present
+    key: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/URPMS-GPG-PUBLICKEY-Fedora-25
+
+
+- name: Disable RPM Fusion directories
   dnf:
     name: "{{ item }}"
-    state: present
+    state: absent
   with_items:
     - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
     - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
@@ -37,19 +48,20 @@
   tags:
     - coprrepo
 
-- name: Enable Samsung ULD repo ( http://negativo17.org/samsung-unified-linux-driver-printers-scanners/ )
+- name: Disable Samsung ULD repo - is in United ( http://negativo17.org/samsung-unified-linux-driver-printers-scanners/ )
   shell: |
    if [ -f /etc/yum.repos.d/fedora-uld.repo ]; then
-      echo ULD repo is enabled
+      echo ULD repo is enabled, remove it
+      rm -f /etc/yum.repos.d/fedora-uld.repo 
       exit 90
    else
-      dnf config-manager --add-repo=http://negativo17.org/repos/fedora-uld.repo
+      echo "Repo is not enabled"
+      echo 0
+      #dnf config-manager --add-repo=http://negativo17.org/repos/fedora-uld.repo
    fi
   register: samsungrepo
-  changed_when: samsungrepo.rc == 0
+  changed_when: samsungrepo.rc == 90
   failed_when: samsungrepo.rc > 0 and samsungrepo.rc != 90
-  tags:
-    - uldrepo
 
 - name: install required packages
   dnf:

@@ -1,0 +1,17 @@
+---
+
+- name add users
+  user:
+    name: "{{ item.key }}"
+    password: "{{ item.value.encpw }}"
+    update_password: on_create
+    comment: "{{ item.value.gecos }}"
+    createhome: yes
+    uid: "{{ item.value.uid }}"
+    group: "{{ item.value.pgid }}"
+    groups: "{{ item.value.ogid }}"
+    generate_ssh_key: yes
+    ssh_key_bits: 4096
+    ssh_key_type: rsa
+    system: no
+  with_dict: "{{ workstation_user }}"

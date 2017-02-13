@@ -10,15 +10,6 @@
     - ogmrip
     - ffmpeg
     - libdvdcss
-    - darktable
-    - handbrake
     - lame
-    - gstreamer-plugins-bad
-    - gstreamer-plugins-base
-    - gstreamer-plugins-espeak
-    - gstreamer-plugins-good
-    - gstreamer-plugins-ugly
-    - gstreamer-plugins-bad-nonfree
-    - gstreamer-plugins-bad-free
-    - gstreamer-plugins-bad-free
-    - gstreamer-plugins-bad-free-extras
+
+
