@@ -1,7 +1,7 @@
 ---
 
 - name: check selinux
-  selinux: state=enforcing
+  selinux: state=enforcing policy=targeted
 
 #- name: set ntp server via chrony
 #  lineinfile: dest=/etc/chrony.conf line="server {{ ntpserver }} iburst"
