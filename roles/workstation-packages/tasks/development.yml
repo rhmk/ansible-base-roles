@@ -14,3 +14,7 @@
     - "@development-tools"
     - "@c-development"
     - "@d-development"
+    - git
+    - rpm-build
+    - xxdiff
+    - xxdiff-tools

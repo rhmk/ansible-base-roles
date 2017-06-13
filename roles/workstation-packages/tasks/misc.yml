@@ -1,0 +1,28 @@
+---
+
+- name: miscellaenoeus packages
+  dnf:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - p7zip
+    - p7zip-gui
+    - p7zip-plugins
+    - unrar
+    - rar
+    - zip
+    - unzip
+    - autofs
+    - icedtea-web
+    - java-1.8.0-openjdk
+    - java-1.8.0-oracle
+    - java-1.8.0-oracle-plugin
+    - telegram-desktop
+    - ansible
+    - ansible-galaxy
+    - ansible-lint
+    - wireshark
+    - wireshark-gtk
+    - vym
+    - tigervnc
+    - f3

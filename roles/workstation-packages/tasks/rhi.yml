@@ -8,6 +8,13 @@
     enabled: yes
     gpgcheck: no
 
+- name: Make sure Local Repository is ignored if different network
+  lineinfile:
+    path: /etc/yum.repos.d/RH_Internal.repo
+    regexp: '^skip_if_unavailable='
+    line: 'skip_if_unavailable=1'
+
+
 - name: Install RH stuff
   dnf:
     name: "{{ item }}"
@@ -15,12 +22,15 @@
   with_items:
     - redhat-office-templates
     - redhat-internal-cert-install
-    - NetworkManager-openvpn 
+    - NetworkManager-openvpn
     - NetworkManager-openvpn-gnome
     - redhat-internal-NetworkManager-openvpn-profiles
+    - ICAClient
+    - hpmyroom-compat
+    - hpmyroom
 
 - name: Configure PrinterServer
-  lineinfile: 
+  lineinfile:
     dest: /etc/cups/cups-browsed.conf
     insertafter: '^# BrowsePoll '
     state: present
@@ -29,3 +39,19 @@
   with_items: "{{ cupssrv }}"
   when: cupssrv is defined
   notify: restart cups
+
+- name: Download & Unpack SAP Certificates 
+  unarchive:
+    src: https://access.co.sap.com/AccessPortal/ap_content/VeriSign.zip
+    dest: /opt/Citrix/ICAClient/keystore/cacerts
+    validate_certs: no
+    creates: 'VeriSign Class 3 Public Primary Certification Authority - G5.cer'
+    mode: 0644
+    owner: root
+    group: root
+
+# Need to be improved
+- name: Set Chromium default start
+  shell: xdg-mime default wfica.desktop application/x-ica
+  register: setting
+

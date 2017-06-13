@@ -10,6 +10,9 @@
   service: name=systemd-logind state=restarted
 
 - name: restart cups
-  service: name=cups state=restarted
+  service: name="{{ item }}" state=restarted
+  with_items:
+    - cups
+    - cups-browsed
 
 ...

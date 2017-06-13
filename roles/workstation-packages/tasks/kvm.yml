@@ -1,0 +1,13 @@
+---
+
+# Configuzres libvirt for use as normal user
+# see http://computingforgeeks.com/use-virt-manager-as-non-root-user/
+
+- name: Install KVM packages
+
+- name: check group libvirt exists
+
+- name: Add user account to the libvirt group
+
+- name: Edit libvirtd configuration file to add group 
+  notify: restart libvirtd

@@ -11,12 +11,17 @@
     - mpv
     - ffmpeg
     - gnome-mpv
-    - openshot
+    - shotcut
     - obs-studio
-    - handbrake
+    - handbrake-cli
+    - handbrake-gui
     - devede
     - deadbeef
     - libdvdcss
+    - libdvdnav
+    - libdvdread
+    - libquicktime
+    - faac
     - gstreamer-plugins-ugly
     - gstreamer1-libav
     - gstreamer1-plugins-bad-free
@@ -29,3 +34,7 @@
     - gstreamer-plugins-good
     - gstreamer-plugins-ugly
     - gstreamer1-plugins-bad-nonfree
+    - shutter
+    - vlc
+    - libtiff-tools 
+    - netpbm-progs

@@ -1,0 +1,11 @@
+---
+
+- name: miscellaenoeus packages
+  dnf:
+    state: present
+    name: "{{ item }}"
+  with_items:
+    - backintime-gnome
+    - backintime-notify
+
+

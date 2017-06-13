@@ -26,3 +26,14 @@
     ssh_key_type: rsa
     system: no
   with_dict: "{{ workstation_user }}"
+
+##
+## TODO: 
+#  - Create something to configure backintime
+#  - Set USer defaults in /var/lib/AccountsService/users/username
+#    [User]
+#    Language=
+#    XSession=gnome-classic
+#    SystemAccount=false
+#    
+##

@@ -7,6 +7,26 @@
   with_items:
     - wine
     - mono-core
+    - xdotool
     - oxygen-mono-fonts
     - mono-devel
     - wine-fonts
+    - samba
+
+# xdotool required for keypass
+
+
+# Setup Samba Server for internal users
+#
+# follow instructions from here:
+# https://www.hiroom2.com/2016/06/26/fedora-24-install-samba-and-share-with-windows-10/
+#
+# enable services smb/nmb
+# add firewall rules --add-service=samba
+# setsebool -P samba_enable_home_dirs on
+# run pdbedit for users (can I automate this for SAMBAUSERS???)
+# create custom /etc/samba/smb.conf (with variables) -> notify restart
+#
+# DONE
+
+- 

@@ -25,13 +25,15 @@
     key: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/URPMS-GPG-PUBLICKEY-Fedora-24
     validate_certs: no
 
-- name: Install RPM Fusion directories
+- name: Install RPM Fusion + RussionFedora NonFree repositories
   dnf:
     name: "{{ item }}"
     state: present
   with_items:
     - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
     - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
+    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/free/fedora/releases/25/Everything/x86_64/os/russianfedora-free-release-25-2.noarch.rpm
+    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/nonfree/fedora/releases/25/Everything/x86_64/os/russianfedora-nonfree-release-25-2.noarch.rpm
 
 #- name: Disable RPM Fusion directories
 #  yum_repository:
@@ -101,6 +103,11 @@
     - google-drive-ocamlfuse
     - uld
     - gnome-classic-session
+    - xsane
+    - gtk-recordmydesktop
+    - setroubleshoot
+    - policycoreutils-python-utils
+    - policycoreutils-gui
 
 - name: install required package groups
   dnf:
