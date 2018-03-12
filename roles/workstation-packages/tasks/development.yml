@@ -18,3 +18,5 @@
     - rpm-build
     - xxdiff
     - xxdiff-tools
+    - atom
+    - electron

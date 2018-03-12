@@ -6,18 +6,10 @@
     name: "{{ item }}"
   with_items:
     - sound-juicer
-    - brasero
-    - vlc
-    - mpv
     - ffmpeg
     - gnome-mpv
     - shotcut
-    - obs-studio
-    - handbrake-cli
-    - handbrake-gui
     - devede
-    - deadbeef
-    - libdvdcss
     - libdvdnav
     - libdvdread
     - libquicktime
@@ -38,3 +30,20 @@
     - vlc
     - libtiff-tools 
     - netpbm-progs
+    - lsdvd
+    - mplayer
+    - mencoder
+    - normalize
+    - vorbis-tools
+    - gpac
+    - mkvtoolnix
+    - mkvtoolnix-gui
+
+## NOTE: libdvdcss is not possible in all countries
+##    - libdvdcss
+- name: libdvdcss
+  dnf:
+    state: present
+    name: libdvdcss
+    enablerepo: remi
+

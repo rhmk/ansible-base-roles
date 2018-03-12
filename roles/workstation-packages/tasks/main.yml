@@ -9,7 +9,6 @@
 - include: ./system-tuning.yml
 
 - include: ./rhi.yml
-  when:
-    - rh_internal
+  when: not( (rh_internal is undefined) or (rh_internal is none) or (rh_internal | trim == '') )
 
 - include: ./windows.yml

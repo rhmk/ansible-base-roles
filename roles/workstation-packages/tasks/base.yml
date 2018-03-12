@@ -14,16 +14,25 @@
     state: present
     key: https://dl-ssl.google.com/linux/linux_signing_key.pub
 
-- name: Enable UnitedRPMs for Multimedia
+# United RPMS are ridiculously broken :-(
+# So do not use it any more
+#- name: Enable UnitedRPMs for Multimedia
+#  dnf:
+#    name: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms/master/RPM/unitedrpms-25-1.noarch.rpm
+#    state: present
+#
+#- name: Add UnitedRPMs signing key
+#  rpm_key:
+#    state: present
+#    key: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/URPMS-GPG-PUBLICKEY-Fedora-24
+#    validate_certs: no
+#
+# Make sure united-RPMS are disabled
+#
+- name: make sure united RPMS are no longer used
   dnf:
-    name: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms/master/RPM/unitedrpms-25-1.noarch.rpm
-    state: present
-
-- name: Add UnitedRPMs signing key
-  rpm_key:
-    state: present
-    key: https://raw.githubusercontent.com/UnitedRPMs/unitedrpms.github.io/master/URPMS-GPG-PUBLICKEY-Fedora-24
-    validate_certs: no
+     name: unitedrpms
+     state: absent
 
 - name: Install RPM Fusion + RussionFedora NonFree repositories
   dnf:
@@ -32,35 +41,39 @@
   with_items:
     - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
     - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
-    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/free/fedora/releases/25/Everything/x86_64/os/russianfedora-free-release-25-2.noarch.rpm
-    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/nonfree/fedora/releases/25/Everything/x86_64/os/russianfedora-nonfree-release-25-2.noarch.rpm
+    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/free/fedora/releases/{{ ansible_lsb.release }}/Everything/x86_64/os/russianfedora-free-release-{{ ansible_lsb.release }}-1.noarch.rpm
+    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/nonfree/fedora/releases/{{ ansible_lsb.release }}/Everything/x86_64/os/russianfedora-nonfree-release-{{ ansible_lsb.release }}-1.noarch.rpm
+    - http://rpms.famillecollet.com/fedora/27/remi/x86_64/remi-release-27-2.fc27.remi.noarch.rpm
+
+- name: Make sure RPM Fusion directories are enabled
+  # YUM Repository module fails
+  #  yum_repository:
+  #  name: "{{ item }}"
+  #  enabled: yes
+  shell:
+     yum-config-manager --enable {{ item }}
+  with_items:
+    - rpmfusion-free
+    - rpmfusion-free-updates
+    - rpmfusion-nonfree
+    - rpmfusion-nonfree-updates
 
 #- name: Disable RPM Fusion directories
-#  yum_repository:
-#   name: "{{ item }}"
-#   enabled: no
-# with_items:
-#   - rpmfusion-free
-#   - rpmfusion-free-updates
-#   - rpmfusion-nonfree
-#   - rpmfusion-nonfree-updates
+#  shell: |
+#   if cat /etc/yum.repos.d/rpmfusion-*.repo | grep -q "^enabled=1"; then
+#     for i in /etc/yum.repos.d/rpmfusion*.repo; do
+#       sed -i "s/^enabled=1/enabled=0/g" $i
+#       echo "$i disabled"
+#     done
+#     exit 90
+#   else
+#     exit 0
+#   fi
+#  register: disablerepos
+#  changed_when: disablerepos == 90
+#  failed_when: disablerepos.rc > 0 and disablerepos.rc != 90
 
-- name: Disable RPM Fusion directories
-  shell: |
-   if cat /etc/yum.repos.d/rpmfusion-*.repo | grep -q "^enabled=1"; then
-     for i in /etc/yum.repos.d/rpmfusion*.repo; do
-       sed -i "s/^enabled=1/enabled=0/g" $i
-       echo "$i disabled"
-     done
-     exit 90
-   else
-     exit 0
-   fi
-  register: disablerepos
-  changed_when: disablerepos == 90
-  failed_when: disablerepos.rc > 0 and disablerepos.rc != 90
-
-- name: Enable copr Repositories
+- name: Enable copr Repositories for multimedia
   shell: |
    if grep -q "^enabled=1$" "/etc/yum.repos.d/_copr_{{ item.name }}-{{ item.project }}.repo"; then
       exit 90
@@ -69,23 +82,20 @@
    fi
   with_items:
     - { name: 'sergiomb', project: 'google-drive-ocamlfuse' }
+    - { name: 'mindfulprotons', project: 'atom' }
   register: copr_enabled
   changed_when: copr_enabled.rc == 0
   failed_when: copr_enabled.rc > 0 and copr_enabled.rc != 90
   tags:
     - coprrepo
 
-- name: Disable Samsung ULD repo - is in United ( http://negativo17.org/samsung-unified-linux-driver-printers-scanners/ )
+- name: Enable Samsung ULD repo - ( http://negativo17.org/samsung-unified-linux-driver-printers-scanners/ )
   shell: |
-   if [ -f /etc/yum.repos.d/fedora-uld.repo ]; then
-      echo ULD repo is enabled, remove it
-      rm -f /etc/yum.repos.d/fedora-uld.repo
-      exit 90
-   else
-      echo "Repo is not enabled"
-      echo 0
-      #dnf config-manager --add-repo=http://negativo17.org/repos/fedora-uld.repo
-   fi
+      if [ -f /etc/yum.repos.d/fedora-uld.repo ]; then
+         exit 0
+      else
+         dnf config-manager --add-repo=http://negativo17.org/repos/fedora-uld.repo && exit 90
+      fi
   register: samsungrepo
   changed_when: samsungrepo.rc == 90
   failed_when: samsungrepo.rc > 0 and samsungrepo.rc != 90
