@@ -118,6 +118,7 @@
     - setroubleshoot
     - policycoreutils-python-utils
     - policycoreutils-gui
+    - gnome-tweak-tool
 
 - name: install required package groups
   dnf:

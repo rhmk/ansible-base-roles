@@ -1,6 +1,6 @@
 ---
 
-- name: kernel-development
+- name: development packages
   dnf:
     state: present
     name: "{{ item }}"
@@ -18,5 +18,13 @@
     - rpm-build
     - xxdiff
     - xxdiff-tools
+
+
+- name: Atom Editor
+  dnf:
+    state: present
+    name: "{{ item }}"
+  ignore_errors: True
+  with_items:
     - atom
     - electron

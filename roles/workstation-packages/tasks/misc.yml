@@ -8,8 +8,7 @@
     - p7zip
     - p7zip-gui
     - p7zip-plugins
-    - unrar
-    - rar
+    - unar
     - zip
     - unzip
     - autofs

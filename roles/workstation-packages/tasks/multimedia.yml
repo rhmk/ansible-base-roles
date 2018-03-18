@@ -38,6 +38,7 @@
     - gpac
     - mkvtoolnix
     - mkvtoolnix-gui
+    - libva-intel-driver
 
 ## NOTE: libdvdcss is not possible in all countries
 ##    - libdvdcss
