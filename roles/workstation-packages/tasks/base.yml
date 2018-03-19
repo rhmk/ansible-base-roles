@@ -5,18 +5,18 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - @core
-    - @standard
-    - @hardware-support
-    - @base-x
-    - @firefox
-    - @fonts
-    - @libreoffice
-    - @multimedia
-    - @networkmanager-submodules
-    - @printing
-    - @gnome-desktop
-    - @development-tools
+    - "@core"
+    - "@standard"
+    - "@hardware-support"
+    - "@base-x"
+    - "@firefox"
+    - "@fonts"
+    - "@libreoffice"
+    - "@multimedia"
+    - "@networkmanager-submodules"
+    - "@printing"
+    - "@gnome-desktop"
+    - "@development-tools"
 
 - name: Ensure some base packages are installed
   dnf:
@@ -49,6 +49,8 @@
     - libX11-devel
     - libXt-devel
     - yum-utils
+    - python-firewall.noarch
+    - python3-firewall.noarch
 
 - name: Add Google Chrome repository
   yum_repository:
