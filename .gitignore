@@ -1,2 +1,4 @@
 *.retry
 workstation-setup-local.yaml
+local*.yaml
+local*.yml
