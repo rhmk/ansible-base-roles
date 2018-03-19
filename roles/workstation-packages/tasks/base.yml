@@ -1,5 +1,55 @@
 ---
 
+- name: Ensure some base package-groups are installed
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - @core
+    - @standard
+    - @hardware-support
+    - @base-x
+    - @firefox
+    - @fonts
+    - @libreoffice
+    - @multimedia
+    - @networkmanager-submodules
+    - @printing
+    - @gnome-desktop
+    - @development-tools
+
+- name: Ensure some base packages are installed
+  dnf:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gnome-keyring-pam
+    - vim
+    - NetworkManager-openvpn-gnome
+    - redshift-gtk
+    - nmap
+    - tcpdump
+    - ansible
+    - thunderbird
+    - vlc
+    - google-chrome-stable
+    - android-tools
+    - calc
+    - gitflow
+    - rpmconf
+    - strace
+    - ffmpeg
+    - gvfs-mtp
+    - figlet
+    - system-config-printer
+    - git-review
+    - gcc-c++
+    - readline-devel
+    - gcc-gfortran
+    - libX11-devel
+    - libXt-devel
+    - yum-utils
+
 - name: Add Google Chrome repository
   yum_repository:
     name: google-chrome
@@ -39,11 +89,11 @@
     name: "{{ item }}"
     state: present
   with_items:
-    - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_lsb.release }}.noarch.rpm
-    - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_lsb.release }}.noarch.rpm
-    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/free/fedora/releases/{{ ansible_lsb.release }}/Everything/x86_64/os/russianfedora-free-release-{{ ansible_lsb.release }}-1.noarch.rpm
-    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/nonfree/fedora/releases/{{ ansible_lsb.release }}/Everything/x86_64/os/russianfedora-nonfree-release-{{ ansible_lsb.release }}-1.noarch.rpm
-    - http://rpms.famillecollet.com/fedora/27/remi/x86_64/remi-release-27-2.fc27.remi.noarch.rpm
+    - http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_distribution_major_version }}.noarch.rpm
+    - http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_distribution_major_version }}.noarch.rpm
+    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/free/fedora/releases/{{ ansible_distribution_major_version }}/Everything/x86_64/os/russianfedora-free-release-{{ ansible_distribution_major_version }}-1.noarch.rpm
+    - http://mirror.yandex.ru/fedora/russianfedora/russianfedora/nonfree/fedora/releases/{{ ansible_distribution_major_version }}/Everything/x86_64/os/russianfedora-nonfree-release-{{ ansible_distribution_major_version }}-1.noarch.rpm
+    - http://rpms.famillecollet.com/fedora/{{ ansible_distribution_major_version }}/remi/x86_64/remi-release-{{ ansible_distribution_major_version }}-1.fc27.remi.noarch.rpm
 
 - name: Make sure RPM Fusion directories are enabled
   # YUM Repository module fails
