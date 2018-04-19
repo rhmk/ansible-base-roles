@@ -39,6 +39,11 @@
     - mkvtoolnix
     - mkvtoolnix-gui
     - libva-intel-driver
+    - remmina
+    - remmina-plugins-gnome
+    - remmina-plugins-spice
+    - remmina-plugins-vnc
+    - remmina-plugins-rdp.x86_64
 
 ## NOTE: libdvdcss is not possible in all countries
 ##    - libdvdcss

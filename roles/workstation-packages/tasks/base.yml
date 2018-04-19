@@ -51,6 +51,8 @@
     - yum-utils
     - python-firewall.noarch
     - python3-firewall.noarch
+    - gpick
+    - libreoffice-langpack-de
 
 - name: Add Google Chrome repository
   yum_repository:
